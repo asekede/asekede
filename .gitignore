@@ -102,3 +102,4 @@ ENV/
 
 # Project
 asekede/settings_secret.py
+*.sqlite3
