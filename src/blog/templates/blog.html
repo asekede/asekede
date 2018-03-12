@@ -1,0 +1,85 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="content">
+    <div class="posts">
+        {% for post in posts %}
+        <div class="post">
+            <h1 class="post-title">
+                <a href="{{ post.get_url }}">{{ post.title }}</a>
+            </h1>
+            <span class="post-date">
+                {{ post.pub_date }}
+            </span>
+            <span class="post-category">
+                <a href="{{ post.category.get_url }}">{{ post.category }}</a>
+            </span>
+            {% for tag in post.get_tags %}
+            <span class="post-tag">
+                <a href="{{ tag.get_url }}">{{ tag }}</a>
+            </span>
+            {% endfor %}
+            <div class="post-abstract">
+                {{ post.get_abstract }}
+                <span class="post-more">
+                    <a href="{{ post.get_url }}">(read more)</a>
+                </span>
+            </div>
+        </div>
+        {% empty %}
+        <h1>No posts</h1> 
+        {% endfor %}
+    </div>
+    <div class="pagination">
+        <span class="step-links">
+            {% if posts.has_previous %}
+                <a href="?page=1">&laquo; first</a>
+                <a href="?page={{ posts.previous_page_number }}">previous</a>
+            {% endif %}
+
+            <span class="current">
+                Page {{ posts.number }} of {{ posts.paginator.num_pages }}.
+            </span>
+
+            {% if posts.has_next %}
+                <a href="?page={{ posts.next_page_number }}">next</a>
+                <a href="?page={{ posts.paginator.num_pages }}">last &raquo;</a>
+            {% endif %}
+        </span>
+    </div>
+
+    <div class="categories">
+        {% for category in categories %}
+        <div class="category"> 
+            <h3 class="category-name">
+                <a href="{{ category.get_url }}">
+                    {{ category.name }}
+                    <span>
+                        {{ category.get_number_of_posts }}
+                    </span>
+                </a>
+            </h3>
+        </div> 
+        {% empty %}
+        <h1>No categories.</h1>
+        {% endfor %} 
+    </div>
+
+    <div class="tags">
+        {% for tag in tags %}
+        <div class="tag"> 
+            <h3 class="tag-name">
+                <a href="{{ tag.get_url }}">
+                    {{ tag.name }}
+                    <span>
+                        {{ tag.get_number_of_posts }}
+                    </span>
+                </a>
+            </h3>
+        </div> 
+        {% empty %}
+        <h1>No tags.</h1>
+        {% endfor %} 
+    </div>
+</div>
+{% endblock %}

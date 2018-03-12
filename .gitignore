@@ -102,4 +102,5 @@ ENV/
 
 # Project
 asekede/settings_secret.py
+migrations/
 *.sqlite3

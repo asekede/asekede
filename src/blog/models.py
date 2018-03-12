@@ -24,11 +24,14 @@ class Tag(models.Model):
                 return tag
         raise Http404("Tag does not exist")
     
+    def get_number_of_posts(self):
+        return self.post_tags.count()
+
     def get_name(self):
         return ''.join([char if char.isalnum() else '_' for char in self.name])
 
     def get_url(self):
-        return reverse('Tag', args=[self.get_name()])
+        return reverse('latest_posts_by_tag', args=[self.get_name()])
 
 
 class Category(models.Model):
@@ -52,11 +55,14 @@ class Category(models.Model):
                 return category
         raise Http404("Category does not exist")
     
+    def get_number_of_posts(self):
+        return self.posts.filter(deleted=False).count() 
+
     def get_name(self):
         return ''.join([char if char.isalnum() else '_' for char in self.name])
 
     def get_url(self):
-        return reverse('Category', args=[self.get_name()])
+        return reverse('latest_posts_by_category', args=[self.get_name()])
 
 
 class Post(models.Model):
@@ -66,7 +72,11 @@ class Post(models.Model):
 
     title = models.CharField(max_length=100)
     content = models.TextField()
-    category = models.ForeignKey(Category, on_delete=models.CASCADE)
+    category = models.ForeignKey(
+        Category, 
+        on_delete=models.CASCADE,
+        related_name="posts"
+    )
     pub_date = models.DateTimeField()
     deleted = models.BooleanField(default=False)
 
@@ -79,13 +89,13 @@ class Post(models.Model):
         return posts
 
     @staticmethod
-    def get_list_of_latest_posts_with_category(category_name):
+    def get_list_of_latest_posts_by_category(category_name):
         category = Category.get_category_with_name(category_name)
         posts = Post.get_list_of_latest_posts().filter(category=category)
         return posts
 
     @staticmethod
-    def get_list_of_latest_posts_with_tag(tag_name):
+    def get_list_of_latest_posts_by_tag(tag_name):
         tag = Tag.get_tag_with_name(tag_name)
         posts = Post.get_list_of_latest_posts().annotate(
             exists=models.Exists(
@@ -98,23 +108,23 @@ class Post(models.Model):
         return posts
 
     @staticmethod
-    def get_list_of_latest_posts_with_year(year):
+    def get_list_of_posts_by_year(year):
         posts = Post.get_list_of_latest_posts().filter(pub_date__year=year)
         return posts
 
     @staticmethod
-    def get_list_of_latest_posts_with_year_month(year, month):
-        posts = Post.get_list_of_latest_posts_with_year(year).filter(pub_date__month=month)
+    def get_list_of_posts_by_year_month(year, month):
+        posts = Post.get_list_of_posts_by_year(year).filter(pub_date__month=month)
         return posts
 
     @staticmethod
-    def get_list_of_latest_posts_with_year_month_day(year, month, day):
-        posts = Post.get_list_of_latest_posts_with_year_month(year, month).filter(pub_date__day=day)
+    def get_list_of_posts_by_year_month_day(year, month, day):
+        posts = Post.get_list_of_posts_by_year_month(year, month).filter(pub_date__day=day)
         return posts
 
     @staticmethod
-    def get_post_with_year_month_day_title(year, month, day, title):
-        for post in Post.get_list_of_latest_posts_with_year_month_day(year, month, day):
+    def get_post_by_year_month_day_title(year, month, day, title):
+        for post in Post.get_list_of_posts_by_year_month_day(year, month, day):
             if post.get_title() == title:
                 return post
         raise Http404("Post does not exist")
@@ -124,7 +134,7 @@ class Post(models.Model):
 
     def get_url(self):
         time = self.pub_date
-        return reverse('Post', args=["%04d" % time.year, "%02d" % time.month, "%02d" % time.day, self.get_title()])
+        return reverse('post_by_year_month_day_title', args=["%04d" % time.year, "%02d" % time.month, "%02d" % time.day, self.get_title()])
     
     #TODO need to add markdown
     def get_content(self):
@@ -159,7 +169,7 @@ class Post(models.Model):
         posts = Post.get_list_of_latest_posts().filter(
             pub_date__gt=self.pub_date
         )
-        return posts[-1] if len(posts) > 0 else None
+        return posts[len(posts)-1] if len(posts) > 0 else None
 
     def get_next_url(self):
         return self.__get_next().get_url()
@@ -187,7 +197,11 @@ class PostTag(models.Model):
         unique_together=('post', 'tag')
 
     post = models.ForeignKey(Post, on_delete=models.CASCADE)
-    tag = models.ForeignKey(Tag, on_delete=models.CASCADE)
+    tag = models.ForeignKey(
+        Tag, 
+        on_delete=models.CASCADE,
+        related_name="post_tags"
+    )
 
     def __str__(self):
         return "%d (Post: %s; Tag: %s)" % (self.id, self.post, self.tag)
