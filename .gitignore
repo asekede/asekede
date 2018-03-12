@@ -101,6 +101,6 @@ ENV/
 .mypy_cache/
 
 # Project
-asekede/settings_secret.py
+src/asekede/settings_secret.py
 migrations/
 *.sqlite3
