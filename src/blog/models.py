@@ -82,10 +82,15 @@ class Post(models.Model):
 
     def __str__(self):
         return self.title
+    
+    @staticmethod
+    def get_list_of_posts():
+        posts = Post.objects.filter(deleted=False)
+        return posts
 
     @staticmethod
     def get_list_of_latest_posts():
-        posts = Post.objects.filter(deleted=False).order_by('-pub_date')
+        posts = Post.get_list_of_posts().order_by('-pub_date')
         return posts
 
     @staticmethod
