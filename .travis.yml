@@ -9,5 +9,8 @@ python:
   - "3.7-dev"
 install:
   - pip install -r requirements.txt
+before_script:
+  - python src/manage.py makemigrations blog
+  - python src/manage.py migrate
 script:
   - python src/manage.py test 
