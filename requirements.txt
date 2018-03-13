@@ -2,3 +2,6 @@
 # encourages rapid development and clean, 
 # pragmatic design.
 Django==2.0.3
+
+# A Django plugin for pytest.
+pytest-django==3.1.2
