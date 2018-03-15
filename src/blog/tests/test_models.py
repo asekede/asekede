@@ -2,7 +2,7 @@ from django.test import TestCase
 from django.http import Http404
 from django.utils import timezone
 from datetime import datetime
-from .models import Tag, Category, Post, PostTag
+from blog.models import Tag, Category, Post, PostTag
 
 import pytz
 
@@ -17,6 +17,16 @@ class TagTestCase(TestCase):
     def tearDown(self):
         Tag.objects.all().delete()
     
+    def test_to_str(self):  
+        tag1 = Tag.objects.get(name='Tag 1')
+        tag2 = Tag.objects.get(name='Tag_2')
+        tag3 = Tag.objects.get(name='Tag3')
+        tag4 = Tag.objects.get(name='Tag#4')
+        self.assertEqual(str(tag1), 'Tag 1')
+        self.assertEqual(str(tag2), 'Tag_2')
+        self.assertEqual(str(tag3), 'Tag3')
+        self.assertEqual(str(tag4), 'Tag#4')
+
     def test_get_list_of_tags(self):
         tags = Tag.get_list_of_tags()
         self.assertEqual(len(tags), 4)
@@ -50,6 +60,16 @@ class CategoryTestCase(TestCase):
 
     def tearDown(self):
         Category.objects.all().delete()
+    
+    def test_to_str(self):
+        category1 = Category.objects.get(name='Category 1')
+        category2 = Category.objects.get(name='Category_2')
+        category3 = Category.objects.get(name='Category3')
+        category4 = Category.objects.get(name='Category#4')
+        self.assertEqual(str(category1), 'Category 1')
+        self.assertEqual(str(category2), 'Category_2')
+        self.assertEqual(str(category3), 'Category3')
+        self.assertEqual(str(category4), 'Category#4')
 
     def test_get_list_of_categories(self):
         categories = Category.get_list_of_categories()
@@ -117,6 +137,10 @@ class PostTestCase(TestCase):
         Tag.objects.all().delete()
         PostTag.objects.all().delete()
     
+    def test_to_string(self):
+        post = Post.objects.get(title='Post 1')
+        self.assertEqual(str(post), 'Post 1')
+
     def test_get_list_of_posts(self):
         posts = Post.get_list_of_posts()
         self.assertEqual(len(posts), 10)
@@ -237,3 +261,23 @@ class PostTestCase(TestCase):
     def test_get_url(self):
         now = datetime(1994, 6, 19, 0, 0, 0, 0, tzinfo=pytz.UTC)
 
+
+class PostTagTestCase(TestCase):
+    def setUp(self):
+        category = Category.objects.create(name="Category")
+        tag = Tag.objects.create(name="Tag")
+        now = datetime(1994, 6, 19, 0, 0, 0, 0, tzinfo=pytz.UTC)
+        post = Post.objects.create(title="Post", content="Post Content", category=category, pub_date=now)
+        PostTag.objects.create(post=post, tag=tag)
+
+    def tearDown(self):
+        Post.objects.all().delete()
+        Category.objects.all().delete()
+        Tag.objects.all().delete()
+        PostTag.objects.all().delete()
+
+    def test_to_string(self):
+        post = Post.objects.get(title="Post")
+        tag = Tag.objects.get(name="Tag")
+        post_tag = PostTag.objects.get(post=post, tag=tag)
+        self.assertEqual(str(post_tag), '1 (Post: Post; Tag: Tag)')
