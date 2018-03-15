@@ -5,3 +5,10 @@ Django==2.0.3
 
 # A Django plugin for pytest.
 pytest-django==3.1.2
+
+# Pytest plugin for measuring coverage.
+pytest-cov==2.5.1
+
+# Hosted coverage reports for Github, 
+# Bitbucket and Gitlab 
+codecov==2.0.15
