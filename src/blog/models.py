@@ -94,14 +94,14 @@ class Post(models.Model):
         return posts
 
     @staticmethod
-    def get_list_of_latest_posts_by_category(category_name):
-        category = Category.get_category_with_name(category_name)
+    def get_list_of_latest_posts_by_category(name):
+        category = Category.get_category_with_name(name)
         posts = Post.get_list_of_latest_posts().filter(category=category)
         return posts
 
     @staticmethod
-    def get_list_of_latest_posts_by_tag(tag_name):
-        tag = Tag.get_tag_with_name(tag_name)
+    def get_list_of_latest_posts_by_tag(name):
+        tag = Tag.get_tag_with_name(name)
         posts = Post.get_list_of_latest_posts().annotate(
             exists=models.Exists(
                 PostTag.objects.filter(

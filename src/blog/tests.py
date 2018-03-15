@@ -9,10 +9,10 @@ import pytz
 
 class TagTestCase(TestCase):
     def setUp(self):
-        Tag.objects.create(name='Tag with whitespace')
-        Tag.objects.create(name='TagWithoutWhitespace')
-        Tag.objects.create(name='TagWithNumbers123456')
-        Tag.objects.create(name='TagWithSymbols!@#$%^')
+        Tag.objects.create(name='Tag 1')
+        Tag.objects.create(name='Tag_2')
+        Tag.objects.create(name='Tag3')
+        Tag.objects.create(name='Tag#4')
 
     def tearDown(self):
         Tag.objects.all().delete()
@@ -27,26 +27,26 @@ class TagTestCase(TestCase):
         self.assertEqual(list(tags), [])
     
     def test_get_tag_with_name(self):
-        tag_with_whitespace = Tag.get_tag_with_name(name='Tag_with_whitespace')
-        tag_without_whitespace = Tag.get_tag_with_name(name='TagWithoutWhitespace')
-        tag_with_numbers = Tag.get_tag_with_name(name='TagWithNumbers123456')
-        tag_with_symbols = Tag.get_tag_with_name(name='TagWithSymbols______')
-        self.assertEqual(tag_with_whitespace.get_name(), 'Tag_with_whitespace')
-        self.assertEqual(tag_without_whitespace.get_name(), 'TagWithoutWhitespace')
-        self.assertEqual(tag_with_numbers.get_name(), 'TagWithNumbers123456')
-        self.assertEqual(tag_with_symbols.get_name(), 'TagWithSymbols______')
+        tag1 = Tag.get_tag_with_name(name='Tag_1')
+        tag2 = Tag.get_tag_with_name(name='Tag_2')
+        tag3 = Tag.get_tag_with_name(name='Tag3')
+        tag4 = Tag.get_tag_with_name(name='Tag_4')
+        self.assertEqual(tag1.name, 'Tag 1')
+        self.assertEqual(tag2.name, 'Tag_2')
+        self.assertEqual(tag3.name, 'Tag3')
+        self.assertEqual(tag4.name, 'Tag#4')
     
     def test_get_tag_with_name_when_invalid(self):
         with self.assertRaises(Http404):
-            Tag.get_tag_with_name('Tag with whitespace invalid') 
+            Tag.get_tag_with_name('Tag invalid') 
     
 
 class CategoryTestCase(TestCase):
     def setUp(self):
-        Category.objects.create(name='Category with whitespace')
-        Category.objects.create(name='CategoryWithoutWhitespace')
-        Category.objects.create(name='CategoryWithNumbers123456')
-        Category.objects.create(name='CategoryWithSymbols!@#$%^')
+        Category.objects.create(name='Category 1')
+        Category.objects.create(name='Category_2')
+        Category.objects.create(name='Category3')
+        Category.objects.create(name='Category#4')
 
     def tearDown(self):
         Category.objects.all().delete()
@@ -61,14 +61,14 @@ class CategoryTestCase(TestCase):
         self.assertEqual(list(categories), [])
     
     def test_get_category_with_name(self):
-        category_with_whitespace = Category.get_category_with_name(name='Category_with_whitespace')
-        category_without_whitespace = Category.get_category_with_name(name='CategoryWithoutWhitespace')
-        category_with_numbers = Category.get_category_with_name(name='CategoryWithNumbers123456')
-        category_with_symbols = Category.get_category_with_name(name='CategoryWithSymbols______')
-        self.assertEqual(category_with_whitespace.get_name(), 'Category_with_whitespace')
-        self.assertEqual(category_without_whitespace.get_name(), 'CategoryWithoutWhitespace')
-        self.assertEqual(category_with_numbers.get_name(), 'CategoryWithNumbers123456')
-        self.assertEqual(category_with_symbols.get_name(), 'CategoryWithSymbols______')
+        category1 = Category.get_category_with_name(name='Category_1')
+        category2 = Category.get_category_with_name(name='Category_2')
+        category3 = Category.get_category_with_name(name='Category3')
+        category4 = Category.get_category_with_name(name='Category_4')
+        self.assertEqual(category1.name, 'Category 1')
+        self.assertEqual(category2.name, 'Category_2')
+        self.assertEqual(category3.name, 'Category3')
+        self.assertEqual(category4.name, 'Category#4')
     
     def test_get_category_with_name_when_invalid(self):
         with self.assertRaises(Http404):
@@ -116,6 +116,20 @@ class PostTestCase(TestCase):
         Category.objects.all().delete()
         Tag.objects.all().delete()
         PostTag.objects.all().delete()
+    
+    def test_get_list_of_posts(self):
+        posts = Post.get_list_of_posts()
+        self.assertEqual(len(posts), 10)
+        self.assertEqual(posts[0].get_title(), "Post_1")
+        self.assertEqual(posts[1].get_title(), "Post_2")
+        self.assertEqual(posts[2].get_title(), "Post_3")
+        self.assertEqual(posts[3].get_title(), "Post_4")
+        self.assertEqual(posts[4].get_title(), "Post_5")
+        self.assertEqual(posts[5].get_title(), "Post_6")
+        self.assertEqual(posts[6].get_title(), "Post_7")
+        self.assertEqual(posts[7].get_title(), "Post_8")
+        self.assertEqual(posts[8].get_title(), "Post_9")
+        self.assertEqual(posts[9].get_title(), "Post_10")
 
     def test_get_list_of_latest_posts(self):
         posts = Post.get_list_of_latest_posts()
@@ -219,3 +233,7 @@ class PostTestCase(TestCase):
     def test_get_post_by_year_month_day_title_when_empty(self):
         with self.assertRaises(Http404):
             Post.get_post_by_year_month_day_title(1994, 6, 24, 'Post_1')
+
+    def test_get_url(self):
+        now = datetime(1994, 6, 19, 0, 0, 0, 0, tzinfo=pytz.UTC)
+

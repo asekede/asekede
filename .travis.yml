@@ -12,4 +12,6 @@ before_script:
   - python src/manage.py makemigrations blog
   - python src/manage.py migrate
 script:
-  - python src/manage.py test 
+  - pytest src --cov=./src
+after_success:
+  - codecov --token=85fd8c0a-9752-4d67-add0-c66f54b615e2
