@@ -1,86 +1,10 @@
 from django.test import TestCase
 from django.http import Http404
 from django.utils import timezone
-from django.urls import reverse
 from datetime import datetime
-from .models import Tag, Category, Post, PostTag
-from .converters import TwoDigitDayConverter, TwoDigitMonthConverter, FourDigitYearConverter
+from blog.models import Tag, Category, Post, PostTag
 
 import pytz
-import re
-
-class UrlsTestCase(TestCase):
-    def test_url_latest_posts(self):
-        url = reverse('latest_posts', args=[])
-        self.assertEqual(url, '/blog/')
-    
-    def test_url_posts_by_year(self):
-        url = reverse('posts_by_year', args=[1994])
-        self.assertEqual(url, '/blog/1994/')
-    
-    def test_url_posts_by_year_month(self):
-        url = reverse('posts_by_year_month', args=[1994, 6])
-        self.assertEqual(url, '/blog/1994/06/')
-    
-    def test_url_posts_by_year_month_day(self):
-        url = reverse('posts_by_year_month_day', args=[1994, 6, 19])
-        self.assertEqual(url, '/blog/1994/06/19/')
-    
-    def test_url_posts_by_year_month_day_title(self):
-        url = reverse('post_by_year_month_day_title', args=[1994, 6, 19, 'Post_1'])
-        self.assertEqual(url, '/blog/1994/06/19/Post_1/')
-
-    def test_url_latest_posts_by_tag(self):
-        url = reverse('latest_posts_by_tag', args=['Tag'])
-        self.assertEqual(url, '/blog/tag/Tag/')
-
-    def test_url_latest_posts_by_category(self):
-        url = reverse('latest_posts_by_category', args=['Category'])
-        self.assertEqual(url, '/blog/category/Category/')
-
-
-class TwoDigitDayConverterTestCase(TestCase):
-    def test_to_python(self):
-        converter = TwoDigitDayConverter() 
-        day = re.match(converter.regex, '07').string
-        self.assertEqual(converter.to_python(day), 7)
-        day = re.match(converter.regex, '10').string
-        self.assertEqual(converter.to_python(day), 10)
-
-    def test_to_url(self):
-        converter = TwoDigitDayConverter() 
-        day = re.match(converter.regex, '07').string
-        self.assertEqual(converter.to_url(day), '07') 
-        day = re.match(converter.regex, '10').string
-        self.assertEqual(converter.to_url(day), '10')
-
-
-class TwoDigitMonthConverterTestCase(TestCase):
-    def test_to_python(self):
-        converter = TwoDigitMonthConverter() 
-        month = re.match(converter.regex, '01').string
-        self.assertEqual(converter.to_python(month), 1)
-        month = re.match(converter.regex, '10').string
-        self.assertEqual(converter.to_python(month), 10)
-
-    def test_to_url(self):
-        converter = TwoDigitMonthConverter() 
-        month = re.match(converter.regex, '01').string
-        self.assertEqual(converter.to_url(month), '01')
-        month = re.match(converter.regex, '10').string
-        self.assertEqual(converter.to_url(month), '10')
-
-
-class FourDigitYearConverterTestCase(TestCase):
-    def test_to_python(self):
-        converter = FourDigitYearConverter() 
-        year = re.match(converter.regex, '1994').string
-        self.assertEqual(converter.to_python(year), 1994)
-
-    def test_to_url(self):
-        converter = FourDigitYearConverter() 
-        year = re.match(converter.regex, '1994').string
-        self.assertEqual(converter.to_url(year), '1994')
 
 
 class TagTestCase(TestCase):
