@@ -2,6 +2,10 @@ from django.db import models
 from django.http import Http404
 from django.urls import reverse
 
+from markdown import markdown
+
+import re
+
 
 class Tag(models.Model):
     class Meta:
@@ -141,12 +145,12 @@ class Post(models.Model):
         time = self.pub_date
         return reverse('post_by_year_month_day_title', args=["%04d" % time.year, "%02d" % time.month, "%02d" % time.day, self.get_title()])
     
-    #TODO need to add markdown
     def get_content(self):
-        return self.content
+        return markdown(self.content, output_format="html5", extensions=['markdown.extensions.tables', 'markdown.extensions.toc', 'markdown.extensions.fenced_code', 'markdown.extensions.codehilite'])
 
     def get_abstract(self):
-        content = self.get_content()
+        clean = re.compile('<.*?>')
+        content = re.sub(clean, '', self.get_content())
         pos = content.find(' ', 500)
         if pos != -1:
             return content[:pos] + '...'

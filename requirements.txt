@@ -6,6 +6,10 @@ Django==2.0.3
 # Python implementation of Markdown.
 Markdown==2.6.11
 
+# Pygments is a syntax highlighting 
+# package written in Python.
+Pygments==2.2.0
+
 # A Django plugin for pytest.
 pytest-django==3.1.2
 
