@@ -93,9 +93,9 @@ class Post(models.Model):
         return posts
 
     @staticmethod
-    def get_list_of_latest_posts():
+    def get_list_of_latest_posts(number=None):
         posts = Post.get_list_of_posts().order_by('-pub_date')
-        return posts
+        return posts if number is None else posts[:number]
 
     @staticmethod
     def get_list_of_latest_posts_by_category(name):

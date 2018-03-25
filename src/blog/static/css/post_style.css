@@ -1,0 +1,118 @@
+.post {
+    margin-bottom: 2em;
+}
+
+.post-title,
+.post-title a {
+    color: #303030;
+    text-decoration: none;
+    font-size: 1.5rem;
+}
+.post-title:hover,
+.post-title a:hover {
+    text-decoration: underline;
+}
+
+.post-date {
+    display: block;
+    margin-top: -.5rem;
+    margin-bottom: .5rem;
+}
+
+.post-category,
+.post-category a {
+    display: block;
+    color: #303030;
+    font-weight: bold;
+    margin-bottom: .5rem;
+    text-decoration: none;
+}
+
+.post-category:hover,
+.post-category a:hover {
+    text-decoration: underline;;
+}
+
+.post-tag a {
+    color: #303030;
+    text-decoration: none;
+}
+
+.post-tag a:hover {
+    text-decoration: underline;;
+}
+
+.post-content {
+    margin-top: 2rem;
+    text-align: justify;
+    text-justify: inter-word;
+}
+
+.previous-next-post {
+    margin-top: 1em;
+    padding-top: 1em;
+    margin-bottom: 1em;
+    padding-bottom: 1em;
+    border-top: 1px solid #9A9A9A;
+    border-bottom: 1px solid #9A9A9A;
+    width: 100%;
+    display: inline-block;
+}
+
+.previous-post {
+    float: left;
+    width: 40%;
+    display: inline-flex;
+    justify-content: flex-start;
+}
+
+.previous-post-title {
+}
+
+.previous-post-title,
+.previous-post-title a {
+    color: #303030;
+    text-decoration: none;
+}
+
+.previous-post-title:hover,
+.previous-post-title a:hover {
+    text-decoration: underline;;
+}
+
+.previous-post-arrow,
+.previous-post-arrow a {
+    color: #303030;
+    text-decoration: none;
+}
+
+.previous-next-post-gap {
+    width: 10%;
+}
+
+.next-post {
+    float: right;
+    width: 40%;
+    display: inline-flex;
+    justify-content: flex-end;
+}
+
+.next-post-title {
+}
+
+.next-post-title,
+.next-post-title a {
+    color: #303030;
+    text-decoration: none;
+}
+
+.next-post-title:hover,
+.next-post-title a:hover {
+    text-decoration: underline;
+}
+
+.next-post-arrow,
+.next-post-arrow a {
+    color: #303030;
+    text-decoration: none;
+}

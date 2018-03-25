@@ -3,8 +3,8 @@
 
 {% block header %}
 <title>{{title}}</title>
-<link rel="stylesheet" href="{% static 'css/style.css' %}">
-<link rel="stylesheet" href="{% static 'css/codehilite.css' %}">
+<link rel="stylesheet" href="{% static 'css/post_style.css' %}" />
+<link rel="stylesheet" href="{% static 'css/codehilite.css' %}" />
 {% endblock %}
 
 {% block content %}
@@ -13,16 +13,10 @@
         <h1 class="post-title">
             <a href="{{ post.get_url }}">{{ post.title }}</a>
         </h1>
-        <span class="post-date">
-            {{ post.pub_date }}
-        </span>
-        <span class="post-category">
-            <a href="{{ post.category.get_url }}">{{ post.category }}</a>
-        </span>
+        <span class="post-date"><i class="far fa-calendar"></i>{{ post.pub_date | date:"M d, Y" }}</span>
+        <span class="post-category"><a href="{{ post.category.get_url }}"><i class="far fa-folder-open"></i>{{ post.category }}</a></span>
         {% for tag in post.get_tags %}
-        <span class="post-tag">
-            <a href="{{ tag.get_url }}">{{ tag }}</a>
-        </span>
+        <span class="post-tag"><a href="{{ tag.get_url }}"><i class="fas fa-tag"></i>{{ tag }}</a></span>
         {% endfor %}
         <div class="post-content">
             {{ post.get_content | safe }}
@@ -32,21 +26,20 @@
         {% if post.has_previous %}
         <div class="previous-post">
             <div class="previous-post-arrow">
-                <a href="{{ post.get_previous_url }}">to prev</a>
+                <a href="{{ post.get_previous_url }}"><i class="fas fa-arrow-left"></i>&nbsp;</a>
             </div>
             <div class="previous-post-title">
                 <a href="{{ post.get_previous_url }}">{{ post.get_previous_title }}</a>
             </div>
         </div>
         {% endif %}
-        <div class="previous-next-post-gap"></div>
         {% if post.has_next %}
         <div class="next-post">
             <div class="next-post-title">
                 <a href="{{ post.get_next_url }}">{{ post.get_next_title }}</a>
             </div>
             <div class="next-post-arrow">
-                <a href="{{ post.get_next_url }}">to next</a>
+                <a href="{{ post.get_next_url }}"><i class="fas fa-arrow-right"></i>&nbsp;</a>
             </div>
         </div>
         {% endif %}
