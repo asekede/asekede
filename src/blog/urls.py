@@ -14,4 +14,9 @@ urlpatterns = [
     path('<yyyy:year>/<mm:month>/<dd:day>/<title>/', views.PostByYearMonthDayTitleView.as_view(), name="post_by_year_month_day_title"),
     path('tag/<name>/', views.PostsByTagView.as_view(), name="latest_posts_by_tag"),
     path('category/<name>/', views.PostsByCategoryView.as_view(), name="latest_posts_by_category"),
+    path('feed/', views.LatestPostsFeed(), name="feed"),
+    path('feed/atom/', views.LatestPostsFeedAtom(), name="feed_atom")
 ]
+
+handler404 = 'blog.views.handler404'
+handler500 = 'blog.views.handler500'
