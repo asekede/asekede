@@ -58,6 +58,33 @@
         <div class="sidebar col-md-3">
             <div class="container">
                 <div class="row">
+                    <div class="archive">
+                        <h3>Archive:</h3>
+                        <ul>
+                            {% for year, months in archive.items %}
+                            <li>
+                                <a href="{% url 'posts_by_year' year %}">{{year}}</a>
+                                <ul> 
+                                    {% for month, data in months.items %}
+                                    <li>
+                                        <a href="{% url 'posts_by_year_month' year data.month_number %}">{{month}} ({{data.number_of_posts}})</a>
+                                        <ul>
+                                            {% for post in data.posts %}
+                                            <li>
+                                                <a href="{{ post.get_url }}">{{ post.title }}</a>
+                                            </li>
+                                            {% endfor %}
+                                        </ul>
+                                    </li>
+                                    {% endfor %}
+                                </ul>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+                <br>
+                <div class="row">
                     <div class="categories">
                         <h3>Categories:</h3>
                         {% for category in categories %} 
