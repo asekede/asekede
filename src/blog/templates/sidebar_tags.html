@@ -1,0 +1,8 @@
+<div class="tags">
+    <h3>Tags:</h3>
+    {% for tag in tags %}
+    <a class="btn btn-light btn-sm m-1" href="{{ tag.get_url }}">{{ tag.name }} <span class="badge badge-dark">{{ tag.get_number_of_posts }}</span></a>
+    {% empty %}
+    <h3>No tags yet ...</h3>
+    {% endfor %} 
+</div>

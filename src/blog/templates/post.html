@@ -17,85 +17,16 @@
 <div class="content container">
     <div class="row">
         <div class="post col-md-9">
-            <h1 class="post-title">
-                <a href="{{ post.get_url }}">{{ post.title }}</a>
-            </h1>
-            <span class="post-date"><i class="far fa-calendar"></i> {{ post.pub_date | date:"M d, Y" }} </span>
-            <span class="post-category"><a href="{{ post.category.get_url }}"><i class="far fa-folder-open"></i> {{ post.category }} </a></span>
-            {% for tag in post.get_tags %}
-            <span class="post-tag"><a href="{{ tag.get_url }}"><i class="fas fa-tag"></i> {{ tag }} </a></span>
-            {% endfor %}
-            <div class="post-content">{{ post.get_content | safe }}</div>
-
-            <div class="previous-next-post">
-                {% if post.has_previous %}
-                <div class="previous-post">
-                    <div class="previous-post-arrow">
-                        <a href="{{ post.get_previous_url }}"><i class="fas fa-arrow-left"></i>&nbsp;</a>
-                    </div>
-                    <div class="previous-post-title">
-                        <a href="{{ post.get_previous_url }}"> {{ post.get_previous_title }} </a>
-                    </div>
-                </div>
-                {% endif %}
-                {% if post.has_next %}
-                <div class="next-post">
-                    <div class="next-post-title">
-                        <a href="{{ post.get_next_url }}"> {{ post.get_next_title }} </a>
-                    </div>
-                    <div class="next-post-arrow">
-                        <a href="{{ post.get_next_url }}"><i class="fas fa-arrow-right"></i>&nbsp;</a>
-                    </div>
-                </div>
-                {% endif %}
-            </div>
-            <div id="disqus_thread"></div>
-            <script>
-                /**
-                *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
-                *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
-                /*
-                var disqus_config = function () {
-                this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
-                this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
-                };
-                */
-                (function() { // DON'T EDIT BELOW THIS LINE
-                var d = document, s = d.createElement('script');
-                s.src = 'https://asekede.disqus.com/embed.js';
-                s.setAttribute('data-timestamp', +new Date());
-                (d.head || d.body).appendChild(s);
-                })();
-            </script>
-            <noscript>
-                Please enable JavaScript to view the 
-                <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
-            </noscript>
+            {% include 'post_title.html' %}
+            {% include 'post_date.html' %}
+            {% include 'post_category.html' %}
+            {% include 'post_tag.html' %}
+            {% include 'post_content.html' %}
+            {% include 'post_prev_next.html' %}
+            {% include 'post_disqus.html' %}
         </div>
-        <div class="sidebar col-md-3">
-            <div class="container"> 
-                <div class="row">
-                    <div class="categories">
-                        <h3>Categories:</h3>
-                        {% for category in categories %} 
-                        <a class="btn btn-light btn-sm m-1" href="{{ category.get_url }}">{{ category.name }} <span class="badge badge-dark">{{ category.get_number_of_posts }}</span></a>
-                        {% empty %}
-                        <h3>No categories yet ...</h3>
-                        {% endfor %} 
-                    </div>
-                </div>
-                <br>
-                <div class="row">
-                    <div class="tags">
-                        <h3>Tags:</h3>
-                        {% for tag in tags %}
-                        <a class="btn btn-light btn-sm m-1" href="{{ tag.get_url }}">{{ tag.name }} <span class="badge badge-dark">{{ tag.get_number_of_posts }}</span></a>
-                        {% empty %}
-                        <h3>No tags yet ...</h3>
-                        {% endfor %} 
-                    </div>
-                </div>
-            </div>
+        <div class="col-md-3">
+            {% include 'sidebar.html' %}
         </div>
     </div>
 </div>

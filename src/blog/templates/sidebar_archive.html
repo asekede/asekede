@@ -1,0 +1,20 @@
+<div class="archive">
+    <h3>Archive:</h3>
+    {% for year, months in archive.items %}
+    <ul>
+        <a href="{% url 'posts_by_year' year %}">{{year}}</a>
+        {% for month, data in months.items %}
+        <li>
+            <a href="{% url 'posts_by_year_month' year data.month_number %}">{{month}} ({{data.number_of_posts}})</a>
+            <ul>
+                {% for post in data.posts %}
+                <li>
+                    <a href="{{ post.get_url }}">{{ post.title }}</a>
+                </li>
+                {% endfor %}
+            </ul>
+        </li>
+        {% endfor %}
+    </ul>
+    {% endfor %}
+</div>

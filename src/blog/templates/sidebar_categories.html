@@ -1,0 +1,8 @@
+<div class="categories">
+    <h3>Categories:</h3>
+    {% for category in categories %} 
+    <a class="btn btn-light btn-sm m-1" href="{{ category.get_url }}">{{ category.name }} <span class="badge badge-dark">{{ category.get_number_of_posts }}</span></a>
+    {% empty %}
+    <h3>No categories yet ...</h3>
+    {% endfor %} 
+</div>

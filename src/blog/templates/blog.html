@@ -18,94 +18,19 @@
         <div class="posts col-md-9">
             {% for post in posts %}
             <div class="post">
-                <h1 class="post-title">
-                    <a href="{{ post.get_url }}">{{ post.title }}</a>
-                </h1>
-                <span class="post-date"><i class="far fa-calendar"></i> {{ post.pub_date | date:"M d, Y" }} </span>
-                <span class="post-category"><a href="{{ post.category.get_url }}"><i class="far fa-folder-open"></i> {{ post.category }} </a></span>
-                {% for tag in post.get_tags %}
-                <span class="post-tag"><a href="{{ tag.get_url }}"><i class="fas fa-tag"></i> {{ tag }} </a></span>
-                {% endfor %}
-                <div class="post-abstract">{{ post.get_abstract }}<span class="post-more"><a href="{{ post.get_url }}">(read more)</a></span></div>
+                {% include 'post_title.html' %}
+                {% include 'post_date.html' %}
+                {% include 'post_category.html' %}
+                {% include 'post_tag.html' %}
+                {% include 'post_abstract.html' %}
             </div>
             {% empty %}
             <h3>No posts yet ...</h3> 
             {% endfor %}
-            {% if is_paginated %}
-            <ul class="pagination justify-content-center">
-                {% if posts.has_previous %}
-                    <li class="page-item"><a class="page-link" href="?page={{ posts.previous_page_number }}">Previous</a></li>
-                {% else %}
-                    <li class="page-item disabled"><a class="page-link" tabindex="-1" href="#">Previous</a></li>
-                {% endif %}
-
-                {% for i in posts.paginator.page_range %}
-                    {% if posts.number == i %}
-                        <li class="page-item active"><a class="page-link" href="#">{{ i }} <span class="sr-only">(current)</span></a></li>
-                    {% else %}
-                        <li class="page-item"><a class="page-link" href="?page={{ i }}">{{ i }}</a></li>
-                    {% endif %}
-                {% endfor %}
-
-                {% if posts.has_next %}
-                    <li class="page-item"><a class="page-link" href="?page={{ posts.next_page_number }}">Next</a></li>
-                {% else %}
-                    <li class="page-item disabled"><a class="page-link" tabindex="-1" href="#">Next</a></li>
-                {% endif %}
-            </ul>
-            {% endif %}
+            {% include 'blog_pagination.html' %}
         </div>
-        <div class="sidebar col-md-3">
-            <div class="container">
-                <div class="row">
-                    <div class="archive">
-                        <h3>Archive:</h3>
-                        <ul>
-                            {% for year, months in archive.items %}
-                            <li>
-                                <a href="{% url 'posts_by_year' year %}">{{year}}</a>
-                                <ul> 
-                                    {% for month, data in months.items %}
-                                    <li>
-                                        <a href="{% url 'posts_by_year_month' year data.month_number %}">{{month}} ({{data.number_of_posts}})</a>
-                                        <ul>
-                                            {% for post in data.posts %}
-                                            <li>
-                                                <a href="{{ post.get_url }}">{{ post.title }}</a>
-                                            </li>
-                                            {% endfor %}
-                                        </ul>
-                                    </li>
-                                    {% endfor %}
-                                </ul>
-                            </li>
-                            {% endfor %}
-                        </ul>
-                    </div>
-                </div>
-                <br>
-                <div class="row">
-                    <div class="categories">
-                        <h3>Categories:</h3>
-                        {% for category in categories %} 
-                        <a class="btn btn-light btn-sm m-1" href="{{ category.get_url }}">{{ category.name }} <span class="badge badge-dark">{{ category.get_number_of_posts }}</span></a>
-                        {% empty %}
-                        <h3>No categories yet ...</h3>
-                        {% endfor %} 
-                    </div>
-                </div>
-                <br>
-                <div class="row">
-                    <div class="tags">
-                        <h3>Tags:</h3>
-                        {% for tag in tags %}
-                        <a class="btn btn-light btn-sm m-1" href="{{ tag.get_url }}">{{ tag.name }} <span class="badge badge-dark">{{ tag.get_number_of_posts }}</span></a>
-                        {% empty %}
-                        <h3>No tags yet ...</h3>
-                        {% endfor %} 
-                    </div>
-                </div>
-            </div>
+        <div class="col-md-3">
+            {% include 'sidebar.html' %}
         </div>
     </div>
 </div>
