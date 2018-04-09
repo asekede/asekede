@@ -1,3 +1,8 @@
+html {
+    position: relative;
+    min-height: 100%;
+}
+
 body {
     font-family: Helvetica, arial, sans-serif;
     font-size: 14px;
@@ -5,16 +10,18 @@ body {
     padding-top: 10px;
     padding-bottom: 10px;
     background-color: #FFFFFF;
-    padding: 10px;
     color: #333333;
+    margin-bottom: 50px;
 }
 
-body > *:first-child {
-    margin-top: 0 !important;
-}
 
-body > *:last-child {
-    margin-bottom: 0 !important;
+.footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 50px;
+    line-height: 50px; 
+    background-color: #F5F5F5;
 }
 
 a {

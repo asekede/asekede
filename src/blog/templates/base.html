@@ -16,26 +16,41 @@
     </head>
     <body>
         <nav class="navbar sticky-top navbar-expand-md navbar-light bg-light">
-            <a class="navbar-brand" href="#">asekede</a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav mr-auto">
-                    {% block navbar-items %}
-                    {% endblock %}
+            <div class="container">
+                <a class="navbar-brand" href="#">#asekede</a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav mr-auto">
+                        {% block navbar-items %}
+                        {% endblock %}
 
-                    <li class="nav-item">
-                        <a class="nav-link" target="_blank" href="https://github.com/asekede"><i class="fab fa-github"></i></a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" target="_blank" href="https://linkedin.com/in/asekede"><i class="fab fa-linkedin"></i></a>
-                    </li>
-                </ul>
+                        <li class="nav-item">
+                            <a class="nav-link" target="_blank" href="https://github.com/asekede"><i class="fab fa-github"></i></a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" target="_blank" href="https://linkedin.com/in/asekede"><i class="fab fa-linkedin"></i></a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" target="_blank" href="{% url 'feed' %}"><i class="fas fa-rss-square"></i> rss</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" target="_blank" href="{% url 'feed_atom' %}"><i class="fas fa-rss-square"></i> atom</a>
+                        </li>
+                    </ul>
+                </div>
             </div>
         </nav>
-        <hr>
+        <br>
+
         {% block content %}
         {% endblock %}
         
+        <footer class="footer">
+            <div class="container">
+                <span class="text-muted"> © 2018 Copyright: Assylkhan Abdrakhmanov</span>
+            </div>
+        </footer>
+
         <script src="{% static 'js/jquery.slim.min.js' %}"></script>
         <script src="{% static 'js/popper.min.js' %}"></script>
         <script src="{% static 'js/bootstrap.min.js' %}"></script>

@@ -9,4 +9,4 @@ def get_objects_by_page(paginator, page):
     except EmptyPage:
         objects = paginator.page(paginator.num_pages)
 
-    return objects
+    return objects, objects.has_other_pages()
