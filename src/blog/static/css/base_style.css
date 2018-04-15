@@ -24,6 +24,14 @@ body {
     background-color: #F5F5F5;
 }
 
+.archive-toggle[aria-expanded=true] .fa-caret-right{
+    display: none;
+}
+
+.archive-toggle[aria-expanded=false] .fa-caret-down {
+    display: none;
+} 
+
 a {
     color: #4183C4;
     text-decoration: none;
@@ -168,7 +176,7 @@ li p.first {
 
 ul, 
 ol {
-    padding-left: 30px;
+    padding-left: 40px;
 }
 
 dl {
@@ -394,4 +402,9 @@ pre code,
 pre tt {
     background-color: transparent;
     border: none;
+}
+
+.content {
+    margin-top: 20px;
+    margin-bottom: 20px;
 }

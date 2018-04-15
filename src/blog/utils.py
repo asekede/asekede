@@ -17,16 +17,20 @@ def generate_archive(posts):
         year = post.pub_date.strftime('%Y')
         month = post.pub_date.strftime('%B')
         if year not in archive:
-            archive[year] = {}
+            archive[year] = {
+                "number_of_posts": 0,
+                "months": {}
+            }
         
-        if month not in archive[year]:
-            archive[year][month] = {
+        if month not in archive[year]["months"]:
+            archive[year]["months"][month] = {
                 "month_number": post.pub_date.month,
                 "number_of_posts": 0,
                 "posts": []
             }
 
-        archive[year][month]['number_of_posts'] += 1
-        archive[year][month]['posts'].append(post)
+        archive[year]["number_of_posts"] += 1
+        archive[year]["months"][month]['number_of_posts'] += 1
+        archive[year]["months"][month]['posts'].append(post)
 
     return archive

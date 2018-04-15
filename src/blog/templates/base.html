@@ -23,7 +23,8 @@
                     <ul class="navbar-nav mr-auto">
                         {% block navbar-items %}
                         {% endblock %}
-
+                    </ul>
+                    <ul class="navbar-nav mr-auto">
                         <li class="nav-item">
                             <a class="nav-link" target="_blank" href="https://github.com/asekede"><i class="fab fa-github"></i></a>
                         </li>
@@ -40,17 +41,12 @@
                 </div>
             </div>
         </nav>
-        <br>
 
         {% block content %}
         {% endblock %}
         
-        <footer class="footer">
-            <div class="container">
-                <span class="text-muted"> © 2018 Copyright: Assylkhan Abdrakhmanov</span>
-            </div>
-        </footer>
-
+        {% include 'footer.html' %}
+        
         <script src="{% static 'js/jquery.slim.min.js' %}"></script>
         <script src="{% static 'js/popper.min.js' %}"></script>
         <script src="{% static 'js/bootstrap.min.js' %}"></script>
