@@ -1,0 +1,38 @@
+<div class="archive">
+    <h3>Archive:</h3>
+    <ul class="list-unstyled">
+        {% for year, year_data in archive.items %}
+        <li class="archive-year">
+            {% with "archive-"|add:year|add:"-months" as year_target %}
+            <div>
+                <div class="archive-toggle" data-toggle="collapse" data-target="#{{year_target}}" aria-expanded="false" aria-controls="{{year_target}}">
+                    <span class="align-left"><i class="fas fa-caret-right fa-lg"></i><i class="fas fa-caret-down fa-lg"></i>&nbsp;</span>
+                    <span class="align-left"><a href="{% url 'posts_by_year' year %}"> {{year}} ({{year_data.number_of_posts}}) </a></span>
+                </div>
+            </div>
+            <ul class="collapse" id={{year_target}}>
+                {% for month, month_data in year_data.months.items %}
+                <li class="archive-month">
+                    {% with "archive-"|add:year|add:"-"|add:month|add:"-posts" as month_target %}
+                    <div>
+                        <div class="archive-toggle" data-toggle="collapse" data-target="#{{month_target}}" aria-expanded="false" aria-controls="{{month_target}}">
+                            <span><i class="fas fa-caret-right fa-lg"></i><i class="fas fa-caret-down fa-lg"></i>&nbsp;</span>
+                            <span><a href="{% url 'posts_by_year_month' year month_data.month_number %}"> {{month}} ({{month_data.number_of_posts}}) </a></span>
+                        </div>
+                    </div>
+                    <ul class="archive-posts collapse" id="{{month_target}}">
+                        {% for post in month_data.posts %}
+                        <li>
+                            <a href="{{ post.get_url }}"> {{ post.title }} </a>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                    {% endwith %}
+                </li>
+                {% endfor %}
+            </ul>
+            {% endwith %}
+        </li>
+        {% endfor %}
+    </ul>
+</div>

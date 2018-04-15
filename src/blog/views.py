@@ -7,7 +7,7 @@ from django.contrib.syndication.views import Feed
 from django.utils.feedgenerator import Atom1Feed
 
 from .models import Tag, Category, Post, PostTag
-from .utils import get_objects_by_page
+from .utils import get_objects_by_page, generate_archive
 
 
 class PostsView(View):
@@ -21,6 +21,10 @@ class PostsView(View):
     
     def get_tags_list(self, *args, **kwargs):
         return Tag.get_list_of_tags()
+    
+    def get_posts_archive(self, *args, **kwargs):
+        posts = Post.get_list_of_latest_posts()
+        return generate_archive(posts)
 
     def get_title(self, *args, **kwargs):
         return 'Posts'
@@ -28,12 +32,15 @@ class PostsView(View):
     def get(self, request, *args, **kwargs):
         posts_list = self.get_posts_list(*args, **kwargs)
         paginator = Paginator(posts_list, 10)
-        posts = get_objects_by_page(paginator, request.GET.get('page'))
-        categories = self.get_categories_list()
-        tags = self.get_tags_list()
+        posts, is_paginated = get_objects_by_page(paginator, request.GET.get('page'))
+        archive = self.get_posts_archive(*args, **kwargs)
+        categories = self.get_categories_list(*args, **kwargs)
+        tags = self.get_tags_list(*args, **kwargs)
         context = {
             'title': self.get_title(*args, **kwargs),
+            'is_paginated': is_paginated,
             'posts': posts,
+            'archive': archive,
             'categories': categories,
             'tags': tags
         }
@@ -44,7 +51,7 @@ class LatestPostsView(PostsView):
         return Post.get_list_of_latest_posts()
     
     def get_title(self, *args, **kwargs):
-        return 'Latest posts'
+        return 'Blog -> latest posts'
 
 
 class PostsByYearView(PostsView):
@@ -52,7 +59,7 @@ class PostsByYearView(PostsView):
         return Post.get_list_of_posts_by_year(year=kwargs.get('year'))
     
     def get_title(self, *args, **kwargs):
-        return 'Posts in {}'.format(kwargs.get('year'))
+        return 'Blog -> posts in {}'.format(kwargs.get('year'))
 
 
 class PostsByYearMonthView(PostsView):
@@ -63,7 +70,7 @@ class PostsByYearMonthView(PostsView):
         )
     
     def get_title(self, *args, **kwargs):
-        return 'Posts in {}.{}'.format(
+        return 'Blog -> posts in {}.{}'.format(
             kwargs.get('month'),
             kwargs.get('year')
         )
@@ -78,7 +85,7 @@ class PostsByYearMonthDayView(PostsView):
         )
     
     def get_title(self, *args, **kwargs):
-        return 'Posts in {}.{}.{}'.format(
+        return 'Blog -> posts in {}.{}.{}'.format(
             kwargs.get('day'),
             kwargs.get('month'),
             kwargs.get('year')
@@ -91,7 +98,9 @@ class PostsByTagView(PostsView):
         )
     
     def get_title(self, *args, **kwargs):
-        return 'Latest posts'
+        return 'Blog -> posts by tag: {}'.format(
+            kwargs.get('name')        
+        )
 
 
 class PostsByCategoryView(PostsView):
@@ -101,7 +110,9 @@ class PostsByCategoryView(PostsView):
         )
     
     def get_title(self, *args, **kwargs):
-        return 'Latest posts'
+        return 'Blog -> posts by category: {}'.format(
+            kwargs.get('name')        
+        )
 
 
 class PostByYearMonthDayTitleView(View):
@@ -114,7 +125,11 @@ class PostByYearMonthDayTitleView(View):
             day=kwargs.get('day'),
             title=kwargs.get('title')
         )
-    
+
+    def get_posts_archive(self, *args, **kwargs):
+        posts = Post.get_list_of_latest_posts()
+        return generate_archive(posts)
+
     def get_categories_list(self, *args, **kwargs):
         return Category.get_list_of_categories()
     
@@ -123,11 +138,13 @@ class PostByYearMonthDayTitleView(View):
  
     def get(self, request, *args, **kwargs):
         post = self.get_post(*args, **kwargs)
-        categories = self.get_categories_list()
-        tags = self.get_tags_list()
+        archive = self.get_posts_archive(*args, **kwargs)
+        categories = self.get_categories_list(*args, **kwargs)
+        tags = self.get_tags_list(*args, **kwargs)
         context = {
             'title': post.title,
             'post': post,
+            'archive': archive,
             'categories': categories,
             'tags': tags
         }

@@ -1,0 +1,22 @@
+<div class="previous-next-post">
+    {% if post.has_previous %}
+    <div class="previous-post">
+        <div class="previous-post-arrow">
+            <a href="{{ post.get_previous_url }}"><i class="fas fa-arrow-left"></i>&nbsp;</a>
+        </div>
+        <div class="previous-post-title">
+            <a href="{{ post.get_previous_url }}"> {{ post.get_previous_title }} </a>
+        </div>
+    </div>
+    {% endif %}
+    {% if post.has_next %}
+    <div class="next-post">
+        <div class="next-post-title">
+            <a href="{{ post.get_next_url }}"> {{ post.get_next_title }} </a>
+        </div>
+        <div class="next-post-arrow">
+            <a href="{{ post.get_next_url }}"><i class="fas fa-arrow-right"></i>&nbsp;</a>
+        </div>
+    </div>
+    {% endif %}
+</div>

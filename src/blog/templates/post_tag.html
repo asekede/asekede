@@ -1,0 +1,3 @@
+{% for tag in post.get_tags %}
+<span class="post-tag"><a href="{{ tag.get_url }}"><i class="fas fa-tag"></i> {{ tag }} </a></span>
+{% endfor %}

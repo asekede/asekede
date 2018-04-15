@@ -4,6 +4,12 @@
 <title>404</title>
 {% endblock %}
 
+{% block navbar-items %}
+<li class="nav-item">
+    <a class="nav-link" href="{% url 'latest_posts' %}"> Blog </a>
+</li>
+{% endblock %}
+
 {% block content %}
 <div>
   <h1>404: Page not found</h1>
