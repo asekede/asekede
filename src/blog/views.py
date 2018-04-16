@@ -10,7 +10,7 @@ from .models import Tag, Category, Post, PostTag
 from .utils import get_objects_by_page, generate_archive
 
 
-class PostsView(View):
+class PostsView(View): # pragma: no cover
     template_name = 'blog.html'
 
     def get_posts_list(self, *args, **kwargs):
@@ -171,7 +171,7 @@ class LatestPostsFeedAtom(LatestPostsFeed):
     feed_type = Atom1Feed
     subtitle = LatestPostsFeed.description
 
-def handler404(request, exception):
+def handler404(request, exception): # pragma: no cover
     response = render_to_response(
         '404.html', 
         {}, 
@@ -180,7 +180,7 @@ def handler404(request, exception):
     response.status_code = 404
     return response
 
-def handler500(request, exception):
+def handler500(request, exception): # pragma: no cover
     response = render_to_response(
         '500.html', 
         {}, 
