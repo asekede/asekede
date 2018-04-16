@@ -119,16 +119,22 @@ class Post(models.Model):
     @staticmethod
     def get_list_of_posts_by_year(year):
         posts = Post.get_list_of_latest_posts().filter(pub_date__year=year)
+        if len(posts) == 0:
+            raise Http404("No posts by given year")
         return posts
 
     @staticmethod
     def get_list_of_posts_by_year_month(year, month):
         posts = Post.get_list_of_posts_by_year(year).filter(pub_date__month=month)
+        if len(posts) == 0:
+            raise Http404("No posts by given month")
         return posts
 
     @staticmethod
     def get_list_of_posts_by_year_month_day(year, month, day):
         posts = Post.get_list_of_posts_by_year_month(year, month).filter(pub_date__day=day)
+        if len(posts) == 0:
+            raise Http404("No posts by given day")
         return posts
 
     @staticmethod
