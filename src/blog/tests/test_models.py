@@ -6,7 +6,6 @@ from blog.models import Tag, Category, Post, PostTag
 
 import pytz
 
-
 class TagTestCase(TestCase):
     def setUp(self):
         Tag.objects.create(name='Tag 1')
@@ -95,11 +94,11 @@ class CategoryTestCase(TestCase):
             Category.get_category_with_name('Category with whitespace invalid')
 
 
-#TODO not finished
 class PostTestCase(TestCase):
     def setUp(self):
         category_1 = Category.objects.create(name="Category 1")
         category_2 = Category.objects.create(name="Category 2")
+        category_3 = Category.objects.create(name="Category 3")
         
         tag_1 = Tag.objects.create(name="Tag 1")
         tag_2 = Tag.objects.create(name="Tag 2")
@@ -108,7 +107,7 @@ class PostTestCase(TestCase):
 
         now = datetime(1994, 6, 19, 0, 0, 0, 0, tzinfo=pytz.UTC)
         post_1 = Post.objects.create(title="Post 1", content="Post 1 Content", category=category_1, pub_date=now)
-        post_2 = Post.objects.create(title="Post 2", content="Post 2 Content", category=category_2, pub_date=now + timezone.timedelta(days=1))
+        post_2 = Post.objects.create(title="Post 2", content="{} Post 2 Content".format("."*500), category=category_2, pub_date=now + timezone.timedelta(days=1))
         post_3 = Post.objects.create(title="Post 3", content="Post 3 Content", category=category_1, pub_date=now + timezone.timedelta(days=3))
         post_4 = Post.objects.create(title="Post 4", content="Post 4 Content", category=category_2, pub_date=now + timezone.timedelta(days=4))
         post_5 = Post.objects.create(title="Post 5", content="Post 5 Content", category=category_2, pub_date=now + timezone.timedelta(days=2))
@@ -187,6 +186,10 @@ class PostTestCase(TestCase):
     def test_get_list_of_latest_posts_by_category_when_invalid(self):
         with self.assertRaises(Http404):
             Post.get_list_of_latest_posts_by_category('Category Invalid')
+    
+    def test_get_list_of_latest_posts_by_category_when_empty(self):
+        with self.assertRaises(Http404):
+            Post.get_list_of_latest_posts_by_category('Category_3')
 
     def test_get_list_of_latest_posts_by_tag(self):
         posts = Post.get_list_of_latest_posts_by_tag('Tag_1')
@@ -259,8 +262,16 @@ class PostTestCase(TestCase):
             Post.get_post_by_year_month_day_title(1994, 6, 24, 'Post_1')
 
     def test_get_url(self):
-        now = datetime(1994, 6, 19, 0, 0, 0, 0, tzinfo=pytz.UTC)
-
+        post = Post.objects.get(title="Post 1")
+        self.assertEqual(post.get_url(), "/blog/1994/06/19/Post_1/")
+    
+    def test_get_abstract(self):
+        post = Post.objects.get(title="Post 1")
+        self.assertEqual(post.get_abstract(), "Post 1 Content")
+    
+    def test_get_abstract_when_content_is_long(self):
+        post = Post.objects.get(title="Post 2")
+        self.assertEqual(post.get_abstract(), "{}...".format("."*500))
 
 class PostTagTestCase(TestCase):
     def setUp(self):
