@@ -19,3 +19,9 @@ pytest-cov==2.5.1
 # Hosted coverage reports for Github, 
 # Bitbucket and Gitlab 
 codecov==2.0.15
+
+# WSGI HTTP Server for UNIX
+gunicorn==19.7.1 
+
+# Python-PostgreSQL Database Adapter
+psycopg2==2.7.4 
