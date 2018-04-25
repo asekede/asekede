@@ -202,8 +202,8 @@ class PostTestCase(TestCase):
             Post.get_list_of_latest_posts_by_tag('Tag invalid')
 
     def test_get_list_of_latest_posts_by_tag_when_empty(self):
-        posts = Post.get_list_of_latest_posts_by_tag('Tag_4')
-        self.assertEqual(list(posts), [])
+        with self.assertRaises(Http404):
+            Post.get_list_of_latest_posts_by_tag('Tag_4')
 
     def test_get_list_of_posts_by_year(self):
         posts = Post.get_list_of_posts_by_year(1994)
@@ -220,8 +220,8 @@ class PostTestCase(TestCase):
         self.assertEqual(posts[9].get_title(), "Post_1")
     
     def test_get_list_of_posts_by_year_when_empty(self):
-        posts = Post.get_list_of_posts_by_year(1993)
-        self.assertEqual(list(posts), [])
+        with self.assertRaises(Http404):
+            Post.get_list_of_posts_by_year(1993)
 
     def test_get_list_of_posts_by_year_month(self):
         posts = Post.get_list_of_posts_by_year_month(1994, 6)
@@ -238,8 +238,8 @@ class PostTestCase(TestCase):
         self.assertEqual(posts[9].get_title(), "Post_1")
     
     def test_get_list_of_posts_by_year_month_when_empty(self):
-        posts = Post.get_list_of_posts_by_year_month(1994, 5)
-        self.assertEqual(list(posts), [])
+        with self.assertRaises(Http404):
+            Post.get_list_of_posts_by_year_month(1994, 5)
 
     def test_get_list_of_posts_by_year_month_day(self):
         posts = Post.get_list_of_posts_by_year_month_day(1994, 6, 24)
@@ -247,8 +247,8 @@ class PostTestCase(TestCase):
         self.assertEqual(posts[0].get_title(), "Post_6")
     
     def test_get_list_of_posts_by_year_month_day_when_empty(self):
-        posts = Post.get_list_of_posts_by_year_month_day(1994, 6, 18)
-        self.assertEqual(list(posts), [])
+        with self.assertRaises(Http404):
+            Post.get_list_of_posts_by_year_month_day(1994, 6, 18)
 
     def test_get_post_by_year_month_day_title(self):
         post = Post.get_post_by_year_month_day_title(1994, 6, 24, 'Post_6')
