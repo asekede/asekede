@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block header %}
+<title>About me</title>
+{% endblock %}
+
+{% block navbar-items %}
+<li class="nav-item active">
+    <a class="nav-link" href="{% url 'about_me' %}"> About me <span class="sr-only">(current)</span></a>
+</li>
+<li class="nav-item">
+    <a class="nav-link" href="{% url 'latest_posts' %}"> Blog </a>
+</li>
+{% endblock %}
+
+{% block content %}
+<div class="content container">
+    <div class="row">
+        <div class="col">
+            <img src="{% static 'img/profile_image.jpg' %}" alt="profile image" class="">
+        </div>
+    </div>
+</div>
+{% endblock %}
