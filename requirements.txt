@@ -24,4 +24,7 @@ codecov==2.0.15
 gunicorn==19.7.1 
 
 # Python-PostgreSQL Database Adapter
-psycopg2==2.7.4 
+psycopg2==2.7.4
+
+# Django Google Analytics app allowing for server side/non-js tracking.
+django-google-analytics-app==4.3.0 
