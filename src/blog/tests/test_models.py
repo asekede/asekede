@@ -188,8 +188,8 @@ class PostTestCase(TestCase):
             Post.get_list_of_latest_posts_by_category('Category Invalid')
     
     def test_get_list_of_latest_posts_by_category_when_empty(self):
-        with self.assertRaises(Http404):
-            Post.get_list_of_latest_posts_by_category('Category_3')
+        posts = Post.get_list_of_latest_posts_by_category('Category_3')
+        self.assertEqual(len(posts), 0)
 
     def test_get_list_of_latest_posts_by_tag(self):
         posts = Post.get_list_of_latest_posts_by_tag('Tag_1')
@@ -205,8 +205,8 @@ class PostTestCase(TestCase):
             Post.get_list_of_latest_posts_by_tag('Tag invalid')
 
     def test_get_list_of_latest_posts_by_tag_when_empty(self):
-        with self.assertRaises(Http404):
-            Post.get_list_of_latest_posts_by_tag('Tag_4')
+        posts = Post.get_list_of_latest_posts_by_tag('Tag_4')
+        self.assertEqual(len(posts), 0)
 
     def test_get_list_of_posts_by_year(self):
         posts = Post.get_list_of_posts_by_year(1994)
