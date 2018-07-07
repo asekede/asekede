@@ -51,7 +51,7 @@ class LatestPostsView(PostsView):
         return Post.get_list_of_latest_posts()
     
     def get_title(self, *args, **kwargs):
-        return 'Blog -> latest posts'
+        return 'Blog : latest posts'
 
 
 class PostsByYearView(PostsView):
@@ -59,7 +59,7 @@ class PostsByYearView(PostsView):
         return Post.get_list_of_posts_by_year(year=kwargs.get('year'))
     
     def get_title(self, *args, **kwargs):
-        return 'Blog -> posts in {}'.format(kwargs.get('year'))
+        return 'Blog : posts in {}'.format(kwargs.get('year'))
 
 
 class PostsByYearMonthView(PostsView):
@@ -70,7 +70,7 @@ class PostsByYearMonthView(PostsView):
         )
     
     def get_title(self, *args, **kwargs):
-        return 'Blog -> posts in {}.{}'.format(
+        return 'Blog : posts in {}.{}'.format(
             kwargs.get('month'),
             kwargs.get('year')
         )
@@ -85,7 +85,7 @@ class PostsByYearMonthDayView(PostsView):
         )
     
     def get_title(self, *args, **kwargs):
-        return 'Blog -> posts in {}.{}.{}'.format(
+        return 'Blog : posts in {}.{}.{}'.format(
             kwargs.get('day'),
             kwargs.get('month'),
             kwargs.get('year')
@@ -98,7 +98,7 @@ class PostsByTagView(PostsView):
         )
     
     def get_title(self, *args, **kwargs):
-        return 'Blog -> posts by tag: {}'.format(
+        return 'Blog : posts by tag {}'.format(
             kwargs.get('name')        
         )
 
@@ -110,7 +110,7 @@ class PostsByCategoryView(PostsView):
         )
     
     def get_title(self, *args, **kwargs):
-        return 'Blog -> posts by category: {}'.format(
+        return 'Blog : posts by category {}'.format(
             kwargs.get('name')        
         )
 
