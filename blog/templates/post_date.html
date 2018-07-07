@@ -1,1 +1,1 @@
-<span class="post-date"><i class="far fa-calendar"></i> {{ post.pub_date | date:"M d, Y" }} </span>
+<span class="post-date"><a href="{{ post.get_url_date_only }}"><i class="far fa-calendar"></i> {{ post.pub_date | date:"M d, Y" }} </a></span>
