@@ -9,9 +9,9 @@ python:
 install:
   - pip install -r requirements.txt
 before_script:
-  - python src/manage.py makemigrations blog
-  - python src/manage.py migrate
+  - python manage.py makemigrations blog
+  - python manage.py migrate
 script:
-  - pytest src --cov
+  - pytest --cov
 after_success:
   - codecov --token=85fd8c0a-9752-4d67-add0-c66f54b615e2

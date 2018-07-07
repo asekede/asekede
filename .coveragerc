@@ -1,5 +1,5 @@
 [run]
-include = src/*
+include = ./*
 
 [report]
 show_missing = True
