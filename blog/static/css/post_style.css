@@ -13,10 +13,19 @@
     text-decoration: underline;
 }
 
-.post-date {
+.post-date, 
+.post_date a {
     display: block;
+    color: #303030;
     margin-top: -.5rem;
     margin-bottom: .5rem;
+    text-decoration: none;
+}
+
+
+.post-date:hover,
+.post-date a:hover {
+    text-decoration: underline;
 }
 
 .post-category,

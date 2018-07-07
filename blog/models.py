@@ -151,6 +151,10 @@ class Post(models.Model):
         time = self.pub_date
         return reverse('post_by_year_month_day_title', args=["%04d" % time.year, "%02d" % time.month, "%02d" % time.day, self.get_title()])
     
+    def get_url_date_only(self):
+        time = self.pub_date
+        return reverse('posts_by_year_month_day', args=["%04d" % time.year, "%02d" % time.month, "%02d" % time.day])
+
     def get_content(self):
         return markdown(self.content, output_format="html5", extensions=['markdown.extensions.tables', 'markdown.extensions.toc', 'markdown.extensions.fenced_code', 'markdown.extensions.codehilite'])
 
